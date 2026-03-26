@@ -46,9 +46,9 @@ public class StudentRecords {
     }
     
     public static void main(String[] args) {
-        // UPDATE THESE WITH YOUR CREDENTIALS
-        String username = "system"; // Your Oracle username
-        String password = "sara"; // YOUR ACTUAL PASSWORD
+        
+        String username = "system"; // Oracle username
+        String password = "12345"; //oracle password
         
         System.out.println("🔍 Oracle Database Connection Tester");
         System.out.println("=====================================");
@@ -73,10 +73,10 @@ public class StudentRecords {
     private static boolean loadDriver() {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            System.out.println("✅ Oracle JDBC Driver loaded successfully!");
+            System.out.println(" Oracle JDBC Driver loaded successfully!");
             return true;
         } catch (ClassNotFoundException e) {
-            System.out.println("❌ Oracle JDBC Driver not found!");
+            System.out.println(" Oracle JDBC Driver not found!");
             System.out.println("Make sure ojdbc11.jar is properly added to the project.");
             return false;
         }
@@ -92,7 +92,7 @@ public class StudentRecords {
             "jdbc:oracle:thin:@//localhost:1521/XEPDB1" // Service name for PDB
         };
         
-        System.out.println("\n🔍 Testing different connection URLs...");
+        System.out.println("\n Testing different connection URLs...");
         System.out.println("Username: " + username);
         System.out.println("----------------------------------------");
         
@@ -102,18 +102,18 @@ public class StudentRecords {
             
             try {
                 Connection testConn = DriverManager.getConnection(testUrl, username, password);
-                System.out.println("   ✅ SUCCESS! Connected successfully!");
+                System.out.println("    SUCCESS! Connected successfully!");
                 
                 DatabaseMetaData metaData = testConn.getMetaData();
                 System.out.println("   Database: " + metaData.getDatabaseProductName());
                 System.out.println("   Version: " + metaData.getDatabaseProductVersion());
                 
                 testConn.close();
-                System.out.println("   ✅ Using URL: " + testUrl);
+                System.out.println("    Using URL: " + testUrl);
                 return testUrl;
                 
             } catch (SQLException e) {
-                String errorMsg = "   ❌ Failed: ";
+                String errorMsg = "   Failed: ";
                 if (e.getErrorCode() == 1017) {
                     errorMsg += "Invalid username/password";
                 } else if (e.getErrorCode() == 12505) {
@@ -137,19 +137,19 @@ public class StudentRecords {
         List<Student> students = new ArrayList<>();
         
         try {
-            System.out.println("\n📊 Connecting to database with working URL...");
+            System.out.println("\nConnecting to database with working URL...");
             System.out.println("URL: " + url);
             
             // Establish connection
             conn = DriverManager.getConnection(url, username, password);
-            System.out.println("✅ Connected to Oracle Database successfully!");
+            System.out.println(" Connected to Oracle Database successfully!");
             
             // Create statement
             stmt = conn.createStatement();
             
             // Execute query to fetch all student records
             String query = "SELECT * FROM student ORDER BY zip";
-            System.out.println("\n📊 Executing query: " + query);
+            System.out.println("\n Executing query: " + query);
             
             rs = stmt.executeQuery(query);
             
@@ -157,13 +157,13 @@ public class StudentRecords {
             ResultSetMetaData rsmd = rs.getMetaData();
             int colCount = rsmd.getColumnCount();
             
-            System.out.println("\n📋 Table columns found:");
+            System.out.println("\n Table columns found:");
             for (int i = 1; i <= colCount; i++) {
                 System.out.println("   " + i + ". " + rsmd.getColumnName(i) + 
                                  " (" + rsmd.getColumnTypeName(i) + ")");
             }
             
-            System.out.println("\n📋 Student Records:");
+            System.out.println("\n Student Records:");
             System.out.println("========================================================================================");
             System.out.printf("%-10s %-15s %-15s %-20s %-10s %-15s %-10s %-10s\n", 
                             "StudentID", "First Name", "Last Name", "City", "State", "Start Term", "Faculty", "Major");
@@ -200,7 +200,7 @@ public class StudentRecords {
             
             // Display summary statistics
             if (!students.isEmpty()) {
-                System.out.println("\n📈 Summary Statistics:");
+                System.out.println("\n Summary Statistics:");
                 System.out.println("   Total students: " + students.size());
                 
                 // Count students by state
@@ -225,7 +225,7 @@ public class StudentRecords {
             }
             
         } catch (SQLException e) {
-            System.out.println("❌ Database error occurred!");
+            System.out.println(" Database error occurred!");
             System.out.println("Error Code: " + e.getErrorCode());
             System.out.println("Error Message: " + e.getMessage());
             e.printStackTrace();
@@ -236,7 +236,7 @@ public class StudentRecords {
                 if (stmt != null) stmt.close();
                 if (conn != null) {
                     conn.close();
-                    System.out.println("\n✅ Database connection closed.");
+                    System.out.println("\n\ Database connection closed.");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
